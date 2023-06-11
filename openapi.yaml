@@ -1,15 +1,15 @@
 openapi: 3.0.1
 info:
-  title: TODO Plugin
-  description: A plugin that allows the user to create and manage a TODO list using ChatGPT. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
+  title: developers Plugin
+  description: A plugin that allows the user to create and manage a developers from selfdev company using ChatGPT. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
   version: 'v1'
 servers:
   - url: http://localhost:5003
 paths:
-  /todos/{username}:
+  /developers/{username}:
     get:
-      operationId: getTodos
-      summary: Get the list of todos
+      operationId: getDevs
+      summary: Get the list of developers
       parameters:
       - in: path
         name: username
@@ -23,10 +23,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getTodosResponse'
+                $ref: '#/components/schemas/getDevsResponse'
     post:
-      operationId: addTodo
-      summary: Add a todo to the list
+      operationId: addDev
+      summary: Add a dev to the company
       parameters:
       - in: path
         name: username
@@ -39,12 +39,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/addTodoRequest'
+              $ref: '#/components/schemas/addDeveloperRequest'
       responses:
         "200":
           description: OK
     delete:
-      operationId: deleteTodo
+      operationId: deleteDeveloper
       summary: Delete a todo from the list
       parameters:
       - in: path
@@ -58,36 +58,36 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/deleteTodoRequest'
+              $ref: '#/components/schemas/deleteDeveloperRequest'
       responses:
         "200":
           description: OK
 
 components:
   schemas:
-    getTodosResponse:
+    getDevResponse:
       type: object
       properties:
-        todos:
+        developers:
           type: array
           items:
             type: string
-          description: The list of todos.
-    addTodoRequest:
+          description: The list of developers.
+    addDeveloperRequest:
       type: object
       required:
       - todo
       properties:
-        todo:
+        name:
           type: string
-          description: The todo to add to the list.
+          description: The developer to add to the list.
           required: true
-    deleteTodoRequest:
+    deleteDeveloperRequest:
       type: object
       required:
-      - todo_idx
+      - dev_id
       properties:
-        todo_idx:
+        dev_id:
           type: integer
           description: The index of the todo to delete.
           required: true
