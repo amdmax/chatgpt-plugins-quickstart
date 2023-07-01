@@ -1,13 +1,22 @@
 import json
-
+import os
 import quart
 import quart_cors
 from quart import request
 
-app = quart_cors.cors(quart.Quart(__name__), allow_origin="https://chat.openai.com")
+# app = quart_cors.cors(quart.Quart(__name__), allow_origin="https://chat.openai.com")
+app = quart.Quart(__name__)
 
 # Keep track of todo's. Does not persist if Python session is restarted.
 _developers = {}
+
+@app.post("/clients/generate")
+async def generate_client():
+    request = await quart.request.get_json(force=True)
+    language = request["language"]
+    openapispecfile = request["spec_url"]
+    os.system(f'npx @openapitools/openapi-generator-cli generate -i {openapispecfile} -g {language} -o ./output')
+    return quart.Response(response='OK', status=200)
 
 @app.post("/developers/<string:username>")
 async def add_dev(username):

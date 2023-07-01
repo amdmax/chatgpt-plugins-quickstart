@@ -1,93 +1,29 @@
 openapi: 3.0.1
 info:
-  title: developers Plugin
-  description: A plugin that allows the user to create and manage a developers from selfdev company using ChatGPT. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
+  title: Open API integrations generator Plugin
+  description: A plugin that generates a client in your language
   version: 'v1'
 servers:
   - url: http://localhost:5003
 paths:
-  /developers/{username}:
-    get:
-      operationId: getDevs
-      summary: Get the list of developers
-      parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getDevsResponse'
+  /clients/generate:
     post:
-      operationId: addDev
-      summary: Add a dev to the company
-      parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
       requestBody:
+        description: Generates a stub API client
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/addDeveloperRequest'
+              $ref: '#/components/schemas/generationRequest'
       responses:
         "200":
           description: OK
-    delete:
-      operationId: deleteDeveloper
-      summary: Delete a todo from the list
-      parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/deleteDeveloperRequest'
-      responses:
-        "200":
-          description: OK
-
-components:
+comonent:
   schemas:
-    getDevResponse:
+    generationReqiest:
       type: object
       properties:
-        developers:
-          type: array
-          items:
-            type: string
-          description: The list of developers.
-    addDeveloperRequest:
-      type: object
-      required:
-      - todo
-      properties:
-        name:
+        language:
           type: string
-          description: The developer to add to the list.
-          required: true
-    deleteDeveloperRequest:
-      type: object
       required:
-      - dev_id
-      properties:
-        dev_id:
-          type: integer
-          description: The index of the todo to delete.
-          required: true
+        - language
